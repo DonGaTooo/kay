@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NEXO · Mapa de intimidad</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="app">
+  <section class="screen on" id="home">
+    <div class="top"><div class="brand"><div class="mark">⌁</div>NEXO</div><div class="tiny">Mapa de intimidad · v1</div></div>
+    <div class="hero">
+      <div class="kicker">Juego para dos</div>
+      <h1>¿Dónde<br>se abre la puerta?</h1>
+      <p>Dos personas. Seis territorios. Dieciocho decisiones privadas. Al final no obtienes un diagnóstico, sino un mapa de dónde hablar fluye, dónde hay diferencias y dónde quizá conviene tocar antes de entrar.</p>
+    </div>
+    <div class="card">
+      <div class="segment">
+        <label><input type="radio" name="tone" value="play" checked><span>Explorar</span></label>
+        <label><input type="radio" name="tone" value="deep"><span>Profundizar</span></label>
+      </div>
+      <div class="grid" style="margin-top:14px">
+        <label class="field"><span>Persona A</span><input id="nameA" maxlength="24" placeholder="Nombre o apodo"></label>
+        <label class="field"><span>Persona B</span><input id="nameB" maxlength="24" placeholder="Nombre o apodo"></label>
+      </div>
+      <div class="territories">
+        <div class="territory"><i>◐</i><b>Adentro</b><small>lo que pasa por dentro</small></div>
+        <div class="territory"><i>↶</i><b>Huellas</b><small>historia y pasado</small></div>
+        <div class="territory"><i>♡</i><b>Cariño</b><small>afecto y necesidad</small></div>
+        <div class="territory"><i>✦</i><b>Deseo</b><small>atracción y cercanía</small></div>
+        <div class="territory"><i>◇</i><b>Fronteras</b><small>límites y conflicto</small></div>
+        <div class="territory"><i>→</i><b>Mañana</b><small>planes y dirección</small></div>
+      </div>
+      <div class="rule">Cada respuesta es privada hasta la revelación. Cualquiera puede pasar cualquier tarjeta. Aquí no se puntúa la valentía.</div>
+      <button class="btn primary" id="start" style="width:100%;margin-top:18px">Entrar al mapa</button>
+    </div>
+    <div class="note" style="text-align:center;margin-top:10px">Este es un juego conversacional, no una prueba clínica ni una medida validada de intimidad.</div>
+  </section>
+
+  <section class="screen handoff" id="handoff">
+    <div class="glyph" id="handoffGlyph">◐</div>
+    <div class="round-label" id="handoffZone">Adentro</div>
+    <h2 id="handoffTitle">Turno de A</h2>
+    <p id="handoffText">Responde tres tarjetas sin que la otra persona vea. Después le pasarás el teléfono.</p>
+    <button class="btn primary" id="handoffGo">Estoy listo/a</button>
+  </section>
+
+  <section class="screen" id="play">
+    <div class="round-head"><div><div class="round-label" id="zoneLabel"></div><div class="round-name" id="playerLabel"></div></div><div class="tiny" id="itemLabel"></div></div>
+    <div class="progress"><i id="progress"></i></div>
+    <div class="prompt-wrap"><div class="prompt-card"><div class="icon" id="promptIcon"></div><h2 id="prompt"></h2><p id="promptHint"></p></div></div>
+    <div class="scale" id="scale">
+      <button class="choice" data-score="0"><b>◌</b>Prefiero guardarlo</button>
+      <button class="choice" data-score="1"><b>◔</b>Depende</button>
+      <button class="choice" data-score="2"><b>◕</b>Me sale fácil</button>
+      <button class="choice" data-score="3"><b>●</b>Sin mucho filtro</button>
+    </div>
+    <div class="mini-nav"><button class="btn ghost" id="pass">Prefiero pasar</button><button class="btn primary" id="answerNext" disabled>Siguiente</button></div>
+    <div class="privacy">La otra persona todavía no ve esta respuesta.</div>
+  </section>
+
+  <section class="screen reveal" id="reveal">
+    <div class="reveal-card">
+      <div class="zone-icon" id="revealIcon"></div>
+      <div class="round-label">Revelación</div>
+      <h1 id="revealZone"></h1>
+      <p class="reveal-sub" id="revealSub"></p>
+      <div class="meters">
+        <div class="meter a"><b id="scoreA">0</b><span id="scoreAName">A</span><div class="meterbar"><i id="barA"></i></div></div>
+        <div class="meter b"><b id="scoreB">0</b><span id="scoreBName">B</span><div class="meterbar"><i id="barB"></i></div></div>
+      </div>
+      <div id="badges"></div>
+      <div class="bridge"><small>Carta puente</small><p id="bridgeText"></p></div>
+      <div class="btnrow"><button class="btn ghost" id="talk60">Hablar 60 s</button><button class="btn primary" id="nextZone">Siguiente territorio</button></div>
+      <div class="countdown" id="countdown" style="display:none">01:00</div>
+    </div>
+  </section>
+
+  <section class="screen final" id="final">
+    <div class="final-head"><div class="spark">⌁</div><div class="kicker">Mapa completo</div><h1>Así se ve<br>su NEXO.</h1><p id="finalIntro"></p></div>
+    <div class="radar-wrap"><svg id="radar" class="radar" viewBox="0 0 420 390" role="img" aria-label="Mapa de intimidad"></svg><div class="legend"><span class="la" id="legendA"></span><span class="lb" id="legendB"></span></div></div>
+    <div class="insights" id="insights"></div>
+    <div class="deck"><div class="kicker" style="margin:20px 0 10px">Tres cartas para seguir</div><div id="deck"></div></div>
+    <div class="btnrow" style="margin-top:18px"><button class="btn ghost" id="restart">Nueva partida</button><button class="btn primary" id="share">Compartir mapa</button></div>
+    <div class="note" style="text-align:center;margin-top:14px">Una diferencia no es un problema. Es información sobre cómo cada persona administra su cercanía.</div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+<script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
